@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -15,7 +14,7 @@
             Kliento posistemis
         </a>
 
-        <a href="#"
+        <a href="{{ route('employee.index') }}"
            class="list-group-item list-group-item-action">
             Darbuotojo posistemis
         </a>
