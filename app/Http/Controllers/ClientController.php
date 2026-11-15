@@ -69,6 +69,6 @@ class ClientController extends Controller
 
         return redirect()
             ->route('client.index')
-            ->with('success', 'Registracija į konferenciją sėkminga!');
+            ->with('success', __('ui.registration_success'));
     }
 }

@@ -82,7 +82,7 @@ class ConferenceController extends Controller
 
         return redirect()
             ->route('admin.conferences.index')
-            ->with('success', 'Konferencija sėkmingai sukurta!');
+            ->with('success', __('ui.conference_created'));
     }
 
     public function edit($id)
@@ -112,6 +112,7 @@ class ConferenceController extends Controller
                 break;
             }
         }
+
         unset($conference);
 
         if (!$found) {
@@ -122,7 +123,7 @@ class ConferenceController extends Controller
 
         return redirect()
             ->route('admin.conferences.index')
-            ->with('success', 'Konferencija sėkmingai atnaujinta!');
+            ->with('success', __('ui.conference_updated'));
     }
 
     public function destroy($id)
@@ -135,7 +136,7 @@ class ConferenceController extends Controller
                 if ($conference['date'] < date('Y-m-d')) {
                     return redirect()
                         ->route('admin.conferences.index')
-                        ->with('error', 'Įvykusios konferencijos trinti negalima!');
+                        ->with('error', __('ui.conference_delete_error'));
                 }
 
                 unset($conferences[$key]);
@@ -144,7 +145,7 @@ class ConferenceController extends Controller
 
                 return redirect()
                     ->route('admin.conferences.index')
-                    ->with('success', 'Konferencija sėkmingai ištrinta!');
+                    ->with('success', __('ui.conference_deleted'));
             }
         }
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Planuojamos konferencijos</h2>
+    <h2>{{ __('ui.planned_conferences') }}</h2>
 
     @if(session('success'))
         <div class="alert alert-success mt-3">
@@ -12,10 +12,10 @@
     <table class="table table-bordered mt-4">
         <thead>
             <tr>
-                <th>Pavadinimas</th>
-                <th>Data</th>
-                <th>Vieta</th>
-                <th>Veiksmai</th>
+                <th>{{ __('ui.title') }}</th>
+                <th>{{ __('ui.date') }}</th>
+                <th>{{ __('ui.location') }}</th>
+                <th>{{ __('ui.actions') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -27,14 +27,15 @@
                     <td>
                         <a href="{{ route('client.show', $conference['id']) }}"
                            class="btn btn-primary btn-sm">
-                            Peržiūrėti
+                            {{ __('ui.view') }}
                         </a>
 
                         <form action="{{ route('client.register', $conference['id']) }}"
                               method="POST" class="d-inline">
                             @csrf
+
                             <button type="submit" class="btn btn-success btn-sm">
-                                Registruotis
+                                {{ __('ui.register') }}
                             </button>
                         </form>
                     </td>

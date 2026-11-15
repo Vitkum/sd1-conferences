@@ -6,6 +6,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\ConferenceController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', [HomeController::class, 'index']);
 
@@ -44,3 +45,12 @@ Route::put('/admin/conferences/{id}', [ConferenceController::class, 'update'])
 
 Route::delete('/admin/conferences/{id}', [ConferenceController::class, 'destroy'])
     ->name('admin.conferences.destroy');
+
+Route::get('/admin/users', [UserController::class, 'index'])
+    ->name('admin.users.index');
+
+Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])
+    ->name('admin.users.edit');
+
+Route::put('/admin/users/{id}', [UserController::class, 'update'])
+    ->name('admin.users.update');

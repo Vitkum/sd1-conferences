@@ -1,17 +1,16 @@
-
 @extends('layouts.app')
 
 @section('content')
-    <h2>Visos konferencijos</h2>
+    <h2>{{ __('ui.all_conferences') }}</h2>
 
     <table class="table table-bordered mt-4">
         <thead>
             <tr>
-                <th>Pavadinimas</th>
-                <th>Data</th>
-                <th>Vieta</th>
-                <th>Būsena</th>
-                <th>Veiksmai</th>
+                <th>{{ __('ui.title') }}</th>
+                <th>{{ __('ui.date') }}</th>
+                <th>{{ __('ui.location') }}</th>
+                <th>{{ __('ui.status') }}</th>
+                <th>{{ __('ui.actions') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -20,17 +19,19 @@
                     <td>{{ $conference['title'] }}</td>
                     <td>{{ $conference['date'] }}</td>
                     <td>{{ $conference['location'] }}</td>
+
                     <td>
                         @if($conference['date'] < date('Y-m-d'))
-                            Įvykusi
+                            {{ __('ui.completed') }}
                         @else
-                            Planuojama
+                            {{ __('ui.planned') }}
                         @endif
                     </td>
+
                     <td>
                         <a href="{{ route('employee.show', $conference['id']) }}"
                            class="btn btn-primary btn-sm">
-                            Peržiūrėti
+                            {{ __('ui.view') }}
                         </a>
                     </td>
                 </tr>

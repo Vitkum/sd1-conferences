@@ -5,12 +5,27 @@
 
     <div class="card mt-4">
         <div class="card-body">
-            <p><strong>Data:</strong> {{ $conference['date'] }}</p>
-            <p><strong>Laikas:</strong> {{ $conference['time'] }}</p>
-            <p><strong>Vieta:</strong> {{ $conference['location'] }}</p>
-            <p><strong>Lektorius:</strong> {{ $conference['speaker'] }}</p>
+            <p>
+                <strong>{{ __('ui.date') }}:</strong>
+                {{ $conference['date'] }}
+            </p>
 
-            <h4 class="mt-4">Užsiregistravę klientai</h4>
+            <p>
+                <strong>{{ __('ui.time') }}:</strong>
+                {{ $conference['time'] }}
+            </p>
+
+            <p>
+                <strong>{{ __('ui.location') }}:</strong>
+                {{ $conference['location'] }}
+            </p>
+
+            <p>
+                <strong>{{ __('ui.speaker') }}:</strong>
+                {{ $conference['speaker'] }}
+            </p>
+
+            <h4 class="mt-4">{{ __('ui.participants') }}</h4>
 
             @if(count($conference['participants']) > 0)
                 <ul class="list-group mt-3">
@@ -21,12 +36,12 @@
                     @endforeach
                 </ul>
             @else
-                <p>Užsiregistravusių klientų nėra.</p>
+                <p>{{ __('ui.no_participants') }}</p>
             @endif
         </div>
     </div>
 
     <a href="{{ route('employee.index') }}" class="btn btn-secondary mt-3">
-        Grįžti į sąrašą
+        {{ __('ui.back_to_list') }}
     </a>
 @endsection
