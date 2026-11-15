@@ -19,7 +19,7 @@
             Darbuotojo posistemis
         </a>
 
-        <a href="#"
+        <a href="{{ route('admin.index') }}"
            class="list-group-item list-group-item-action">
             Administratoriaus posistemis
         </a>
