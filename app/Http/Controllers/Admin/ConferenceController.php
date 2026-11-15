@@ -5,58 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreConferenceRequest;
 use App\Http\Requests\UpdateConferenceRequest;
+use App\Services\ConferenceService;
 
 class ConferenceController extends Controller
 {
-    private function conferences()
-    {
-        if (!session()->has('conferences')) {
-            session(['conferences' => [
-                [
-                    'id' => 1,
-                    'title' => 'Programavimo pagrindai',
-                    'description' => 'Konferencija apie programavimo pagrindus.',
-                    'speaker' => 'Jonas Jonaitis',
-                    'date' => '2026-12-05',
-                    'time' => '10:00',
-                    'location' => 'Vilnius'
-                ],
-                [
-                    'id' => 2,
-                    'title' => 'Dirbtinis intelektas versle',
-                    'description' => 'Dirbtinio intelekto taikymas versle.',
-                    'speaker' => 'Petras Petraitis',
-                    'date' => '2026-12-12',
-                    'time' => '11:00',
-                    'location' => 'Kaunas'
-                ],
-                [
-                    'id' => 3,
-                    'title' => 'Interneto svetainių kūrimas',
-                    'description' => 'Interneto svetainių kūrimo pagrindai.',
-                    'speaker' => 'Ona Onaitytė',
-                    'date' => '2026-12-19',
-                    'time' => '12:00',
-                    'location' => 'Vilnius'
-                ],
-                [
-                    'id' => 4,
-                    'title' => 'Informacinių technologijų naujovės',
-                    'description' => 'Naujausios IT technologijos.',
-                    'speaker' => 'Antanas Antanaitis',
-                    'date' => '2026-10-15',
-                    'time' => '09:00',
-                    'location' => 'Klaipėda'
-                ]
-            ]]);
-        }
-
-        return session('conferences');
-    }
-
     public function index()
     {
-        $conferences = $this->conferences();
+        $conferences = ConferenceService::all();
 
         return view('admin.conferences.index', compact('conferences'));
     }
@@ -68,17 +23,18 @@ class ConferenceController extends Controller
 
     public function store(StoreConferenceRequest $request)
     {
-        $conferences = $this->conferences();
+        $conferences = ConferenceService::all();
 
         $ids = array_column($conferences, 'id');
         $newId = empty($ids) ? 1 : max($ids) + 1;
 
         $conference = $request->validated();
         $conference['id'] = $newId;
+        $conference['participants'] = [];
 
         $conferences[] = $conference;
 
-        session(['conferences' => $conferences]);
+        ConferenceService::save($conferences);
 
         return redirect()
             ->route('admin.conferences.index')
@@ -87,8 +43,7 @@ class ConferenceController extends Controller
 
     public function edit($id)
     {
-        $conference = collect($this->conferences())
-            ->firstWhere('id', (int) $id);
+        $conference = ConferenceService::find($id);
 
         if (!$conference) {
             abort(404);
@@ -99,7 +54,7 @@ class ConferenceController extends Controller
 
     public function update(UpdateConferenceRequest $request, $id)
     {
-        $conferences = $this->conferences();
+        $conferences = ConferenceService::all();
         $found = false;
 
         foreach ($conferences as &$conference) {
@@ -108,6 +63,7 @@ class ConferenceController extends Controller
                     $conference,
                     $request->validated()
                 );
+
                 $found = true;
                 break;
             }
@@ -119,7 +75,7 @@ class ConferenceController extends Controller
             abort(404);
         }
 
-        session(['conferences' => $conferences]);
+        ConferenceService::save($conferences);
 
         return redirect()
             ->route('admin.conferences.index')
@@ -128,7 +84,7 @@ class ConferenceController extends Controller
 
     public function destroy($id)
     {
-        $conferences = $this->conferences();
+        $conferences = ConferenceService::all();
 
         foreach ($conferences as $key => $conference) {
             if ($conference['id'] == $id) {
@@ -141,7 +97,7 @@ class ConferenceController extends Controller
 
                 unset($conferences[$key]);
 
-                session(['conferences' => array_values($conferences)]);
+                ConferenceService::save(array_values($conferences));
 
                 return redirect()
                     ->route('admin.conferences.index')
